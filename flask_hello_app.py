@@ -18,12 +18,20 @@ class Person(db.Model):
 #Test result
 result = Person.query.filter(Person.name.ilike('%i%')).count()
 
+
 db.create_all()
 
 @app.route('/')
 def index():
+    person1 = Person(name = 'Curry')
+    person2 = Person(name = 'Chris')
+    db.session.add_all([person1, person2])
+    db.session.commit()
     persons = Person.query.first()
-    return 'hello world next phase ' + persons.name
+    persons2 = Person.query.get(2)
+    persons3 = Person.query.get(3)
+    return 'hello world next phase ' + persons.name + '\n' + persons2.name + '\n' + persons3.name
+
 
 if __name__ == '__main__':
   app.run()
